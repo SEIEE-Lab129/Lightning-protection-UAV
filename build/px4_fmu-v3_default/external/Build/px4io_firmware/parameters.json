@@ -1,0 +1,3588 @@
+{
+  "version": 1,
+  "parameters": [
+    {
+      "name": "ctl_bw",
+      "type": "Int32",
+      "default": 75,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Speed controller bandwidth",
+      "longDesc": "Speed controller bandwidth, in Hz. Higher values result in faster speed and current rise times, but may result in overshoot and higher current consumption. For fixed-wing aircraft, this value should be less than 50 Hz; for multirotors, values up to 100 Hz may provide improvements in responsiveness.",
+      "min": 10,
+      "max": 250,
+      "units": "Hz"
+    },
+    {
+      "name": "ctl_dir",
+      "type": "Int32",
+      "default": 1,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Reverse direction",
+      "longDesc": "Motor spin direction as detected during initial enumeration. Use 0 or 1 to reverse direction.",
+      "min": 0,
+      "max": 1
+    },
+    {
+      "name": "ctl_gain",
+      "type": "Float",
+      "default": 1.0,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Speed (RPM) controller gain",
+      "longDesc": "Speed (RPM) controller gain. Determines controller\n            aggressiveness; units are amp-seconds per radian. Systems with\n            higher rotational inertia (large props) will need gain increased;\n            systems with low rotational inertia (small props) may need gain\n            decreased. Higher values result in faster response, but may result\n            in oscillation and excessive overshoot. Lower values result in a\n            slower, smoother response.",
+      "min": 0.0,
+      "max": 1.0,
+      "units": "C/rad",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "ctl_hz_idle",
+      "type": "Float",
+      "default": 3.5,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Idle speed (e Hz)",
+      "longDesc": "Idle speed (e Hz)",
+      "min": 0.0,
+      "max": 100.0,
+      "units": "Hz",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "ctl_start_rate",
+      "type": "Int32",
+      "default": 25,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Spin-up rate (e Hz/s)",
+      "longDesc": "Spin-up rate (e Hz/s)",
+      "min": 5,
+      "max": 1000,
+      "units": "1/s^2"
+    },
+    {
+      "name": "esc_index",
+      "type": "Int32",
+      "default": 0,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Index of this ESC in throttle command messages.",
+      "longDesc": "Index of this ESC in throttle command messages.",
+      "min": 0,
+      "max": 15
+    },
+    {
+      "name": "id_ext_status",
+      "type": "Int32",
+      "default": 20034,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Extended status ID",
+      "longDesc": "Extended status ID",
+      "min": 1,
+      "max": 1000000
+    },
+    {
+      "name": "int_ext_status",
+      "type": "Int32",
+      "default": 50000,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Extended status interval (\u00b5s)",
+      "longDesc": "Extended status interval (\u00b5s)",
+      "min": 0,
+      "max": 1000000,
+      "units": "us"
+    },
+    {
+      "name": "int_status",
+      "type": "Int32",
+      "default": 50000,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "ESC status interval (\u00b5s)",
+      "longDesc": "ESC status interval (\u00b5s)",
+      "max": 1000000,
+      "units": "us"
+    },
+    {
+      "name": "mot_i_max",
+      "type": "Float",
+      "default": 12.0,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Motor current limit in amps",
+      "longDesc": "Motor current limit in amps. This determines the maximum\n            current controller setpoint, as well as the maximum allowable\n            current setpoint slew rate. This value should generally be set to\n            the continuous current rating listed in the motor\u2019s specification\n            sheet, or set equal to the motor\u2019s specified continuous power\n            divided by the motor voltage limit.",
+      "min": 1.0,
+      "max": 80.0,
+      "units": "A",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "mot_kv",
+      "type": "Int32",
+      "default": 2300,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Motor Kv in RPM per volt",
+      "longDesc": "Motor Kv in RPM per volt. This can be taken from the motor\u2019s\n            specification sheet; accuracy will help control performance but\n            some deviation from the specified value is acceptable.",
+      "min": 0,
+      "max": 4000,
+      "units": "rpm/V"
+    },
+    {
+      "name": "mot_ls",
+      "type": "Float",
+      "default": 0.0,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "READ ONLY: Motor inductance in henries.",
+      "longDesc": "READ ONLY: Motor inductance in henries. This is measured on start-up.",
+      "units": "H",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "mot_num_poles",
+      "type": "Int32",
+      "default": 14,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Number of motor poles.",
+      "longDesc": "Number of motor poles. Used to convert mechanical speeds to\n            electrical speeds. This number should be taken from the motor\u2019s\n            specification sheet.",
+      "min": 2,
+      "max": 40
+    },
+    {
+      "name": "mot_rs",
+      "type": "Float",
+      "default": 0.0,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "READ ONLY: Motor resistance in ohms",
+      "longDesc": "READ ONLY: Motor resistance in ohms. This is measured on start-up. When\n            tuning a new motor, check that this value is approximately equal\n            to the value shown in the motor\u2019s specification sheet.",
+      "units": "Ohm",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "mot_v_accel",
+      "type": "Float",
+      "default": 0.5,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Acceleration limit (V)",
+      "longDesc": "Acceleration limit (V)",
+      "min": 0.01,
+      "max": 1.0,
+      "units": "V",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "mot_v_max",
+      "type": "Float",
+      "default": 14.8,
+      "group": "UAVCAN Motor Parameters",
+      "category": "Standard",
+      "shortDesc": "Motor voltage limit in volts",
+      "longDesc": "Motor voltage limit in volts. The current controller\u2019s\n            commanded voltage will never exceed this value. Note that this may\n            safely be above the nominal voltage of the motor; to determine the\n            actual motor voltage limit, divide the motor\u2019s rated power by the\n            motor current limit.",
+      "min": 0.0,
+      "units": "V",
+      "decimalPlaces": 3
+    },
+    {
+      "name": "gnss.dyn_model",
+      "type": "Int32",
+      "default": 2,
+      "group": "UAVCAN GNSS",
+      "category": "Standard",
+      "shortDesc": "GNSS dynamic model",
+      "longDesc": "Dynamic model used in the GNSS positioning engine. 0 \u2013\n        Automotive, 1 \u2013 Sea, 2 \u2013 Airborne.\n      ",
+      "min": 0,
+      "max": 2,
+      "values": [
+        {
+          "value": 0,
+          "description": "Automotive"
+        },
+        {
+          "value": 1,
+          "description": "Sea"
+        },
+        {
+          "value": 2,
+          "description": "Airborne"
+        }
+      ]
+    },
+    {
+      "name": "gnss.old_fix_msg",
+      "type": "Int32",
+      "default": 1,
+      "group": "UAVCAN GNSS",
+      "category": "Standard",
+      "shortDesc": "Broadcast old GNSS fix message",
+      "longDesc": "Broadcast the old (deprecated) GNSS fix message\n        uavcan.equipment.gnss.Fix alongside the new alternative\n        uavcan.equipment.gnss.Fix2. It is recommended to\n        disable this feature to reduce the CAN bus traffic.\n      ",
+      "min": 0,
+      "max": 1,
+      "values": [
+        {
+          "value": 0,
+          "description": "Fix2"
+        },
+        {
+          "value": 1,
+          "description": "Fix and Fix2"
+        }
+      ]
+    },
+    {
+      "name": "gnss.warn_dimens",
+      "type": "Int32",
+      "default": 0,
+      "group": "UAVCAN GNSS",
+      "category": "Standard",
+      "shortDesc": "device health warning",
+      "longDesc": "Set the device health to Warning if the dimensionality of\n              the GNSS solution is less than this value. 3 for the full (3D)\n              solution, 2 for planar (2D) solution, 1 for time-only solution,\n              0 disables the feature.\n      ",
+      "min": 0,
+      "max": 3,
+      "values": [
+        {
+          "value": 0,
+          "description": "disables the feature"
+        },
+        {
+          "value": 1,
+          "description": "time-only solution"
+        },
+        {
+          "value": 2,
+          "description": "planar (2D) solution"
+        },
+        {
+          "value": 3,
+          "description": "full (3D) solution"
+        }
+      ]
+    },
+    {
+      "name": "gnss.warn_sats",
+      "type": "Int32",
+      "default": 0,
+      "group": "UAVCAN GNSS",
+      "category": "Standard",
+      "shortDesc": "",
+      "longDesc": "Set the device health to Warning if the number of satellites\n        used in the GNSS solution is below this threshold. Zero\n        disables the feature\n      "
+    },
+    {
+      "name": "uavcan.pubp-pres",
+      "type": "Int32",
+      "default": 0,
+      "group": "UAVCAN GNSS",
+      "category": "Standard",
+      "shortDesc": "",
+      "longDesc": "Set the device health to Warning if the number of satellites\n        used in the GNSS solution is below this threshold. Zero\n        disables the feature\n      ",
+      "min": 0,
+      "max": 1000000,
+      "units": "us"
+    },
+    {
+      "name": "BAT1_CAPACITY",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Battery 1 capacity",
+      "longDesc": "Defines the capacity of battery 1 in mAh.",
+      "min": -1.0,
+      "max": 100000.0,
+      "units": "mAh",
+      "decimalPlaces": 0,
+      "increment": 50.0,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT1_N_CELLS",
+      "type": "Int32",
+      "default": 0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Number of cells for battery 1",
+      "longDesc": "Defines the number of cells the attached battery consists of.",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": 2,
+          "description": "2S Battery"
+        },
+        {
+          "value": 3,
+          "description": "3S Battery"
+        },
+        {
+          "value": 4,
+          "description": "4S Battery"
+        },
+        {
+          "value": 5,
+          "description": "5S Battery"
+        },
+        {
+          "value": 6,
+          "description": "6S Battery"
+        },
+        {
+          "value": 7,
+          "description": "7S Battery"
+        },
+        {
+          "value": 8,
+          "description": "8S Battery"
+        },
+        {
+          "value": 9,
+          "description": "9S Battery"
+        },
+        {
+          "value": 10,
+          "description": "10S Battery"
+        },
+        {
+          "value": 11,
+          "description": "11S Battery"
+        },
+        {
+          "value": 12,
+          "description": "12S Battery"
+        },
+        {
+          "value": 13,
+          "description": "13S Battery"
+        },
+        {
+          "value": 14,
+          "description": "14S Battery"
+        },
+        {
+          "value": 15,
+          "description": "15S Battery"
+        },
+        {
+          "value": 16,
+          "description": "16S Battery"
+        }
+      ]
+    },
+    {
+      "name": "BAT1_R_INTERNAL",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Explicitly defines the per cell internal resistance for battery 1",
+      "longDesc": "If non-negative, then this will be used in place of BAT1_V_LOAD_DROP for all calculations.",
+      "min": -1.0,
+      "max": 0.2,
+      "units": "Ohm",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT1_SOURCE",
+      "type": "Int32",
+      "default": 0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Battery 1 monitoring source",
+      "longDesc": "This parameter controls the source of battery data. The value 'Power Module' means that measurements are expected to come from a power module. If the value is set to 'External' then the system expects to receive mavlink battery status messages. If the value is set to 'ESCs', the battery information are taken from the esc_status message. This requires the ESC to provide both voltage as well as current.",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": -1,
+          "description": "Disabled"
+        },
+        {
+          "value": 0,
+          "description": "Power Module"
+        },
+        {
+          "value": 1,
+          "description": "External"
+        },
+        {
+          "value": 2,
+          "description": "ESCs"
+        }
+      ]
+    },
+    {
+      "name": "BAT1_V_CHARGED",
+      "type": "Float",
+      "default": 4.05,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Full cell voltage (5C load)",
+      "longDesc": "Defines the voltage where a single cell of battery 1 is considered full under a mild load. This will never be the nominal voltage of 4.2V",
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT1_V_EMPTY",
+      "type": "Float",
+      "default": 3.5,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Empty cell voltage (5C load)",
+      "longDesc": "Defines the voltage where a single cell of battery 1 is considered empty. The voltage should be chosen before the steep dropoff to 2.8V. A typical lithium battery can only be discharged down to 10% before it drops off to a voltage level damaging the cells.",
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT1_V_LOAD_DROP",
+      "type": "Float",
+      "default": 0.3,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Voltage drop per cell on full throttle",
+      "longDesc": "This implicitely defines the internal resistance to maximum current ratio for battery 1 and assumes linearity. A good value to use is the difference between the 5C and 20-25C load. Not used if BAT1_R_INTERNAL is set.",
+      "min": 0.07,
+      "max": 0.5,
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT2_CAPACITY",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Battery 2 capacity",
+      "longDesc": "Defines the capacity of battery 2 in mAh.",
+      "min": -1.0,
+      "max": 100000.0,
+      "units": "mAh",
+      "decimalPlaces": 0,
+      "increment": 50.0,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT2_N_CELLS",
+      "type": "Int32",
+      "default": 0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Number of cells for battery 2",
+      "longDesc": "Defines the number of cells the attached battery consists of.",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": 2,
+          "description": "2S Battery"
+        },
+        {
+          "value": 3,
+          "description": "3S Battery"
+        },
+        {
+          "value": 4,
+          "description": "4S Battery"
+        },
+        {
+          "value": 5,
+          "description": "5S Battery"
+        },
+        {
+          "value": 6,
+          "description": "6S Battery"
+        },
+        {
+          "value": 7,
+          "description": "7S Battery"
+        },
+        {
+          "value": 8,
+          "description": "8S Battery"
+        },
+        {
+          "value": 9,
+          "description": "9S Battery"
+        },
+        {
+          "value": 10,
+          "description": "10S Battery"
+        },
+        {
+          "value": 11,
+          "description": "11S Battery"
+        },
+        {
+          "value": 12,
+          "description": "12S Battery"
+        },
+        {
+          "value": 13,
+          "description": "13S Battery"
+        },
+        {
+          "value": 14,
+          "description": "14S Battery"
+        },
+        {
+          "value": 15,
+          "description": "15S Battery"
+        },
+        {
+          "value": 16,
+          "description": "16S Battery"
+        }
+      ]
+    },
+    {
+      "name": "BAT2_R_INTERNAL",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Explicitly defines the per cell internal resistance for battery 2",
+      "longDesc": "If non-negative, then this will be used in place of BAT2_V_LOAD_DROP for all calculations.",
+      "min": -1.0,
+      "max": 0.2,
+      "units": "Ohm",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT2_SOURCE",
+      "type": "Int32",
+      "default": -1,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Battery 2 monitoring source",
+      "longDesc": "This parameter controls the source of battery data. The value 'Power Module' means that measurements are expected to come from a power module. If the value is set to 'External' then the system expects to receive mavlink battery status messages. If the value is set to 'ESCs', the battery information are taken from the esc_status message. This requires the ESC to provide both voltage as well as current.",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": -1,
+          "description": "Disabled"
+        },
+        {
+          "value": 0,
+          "description": "Power Module"
+        },
+        {
+          "value": 1,
+          "description": "External"
+        },
+        {
+          "value": 2,
+          "description": "ESCs"
+        }
+      ]
+    },
+    {
+      "name": "BAT2_V_CHARGED",
+      "type": "Float",
+      "default": 4.05,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Full cell voltage (5C load)",
+      "longDesc": "Defines the voltage where a single cell of battery 1 is considered full under a mild load. This will never be the nominal voltage of 4.2V",
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT2_V_EMPTY",
+      "type": "Float",
+      "default": 3.5,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Empty cell voltage (5C load)",
+      "longDesc": "Defines the voltage where a single cell of battery 1 is considered empty. The voltage should be chosen before the steep dropoff to 2.8V. A typical lithium battery can only be discharged down to 10% before it drops off to a voltage level damaging the cells.",
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT2_V_LOAD_DROP",
+      "type": "Float",
+      "default": 0.3,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Voltage drop per cell on full throttle",
+      "longDesc": "This implicitely defines the internal resistance to maximum current ratio for battery 1 and assumes linearity. A good value to use is the difference between the 5C and 20-25C load. Not used if BAT2_R_INTERNAL is set.",
+      "min": 0.07,
+      "max": 0.5,
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_CAPACITY",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_CAPACITY instead",
+      "longDesc": "Defines the capacity of battery 1.",
+      "min": -1.0,
+      "max": 100000.0,
+      "units": "mAh",
+      "decimalPlaces": 0,
+      "increment": 50.0,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_CRIT_THR",
+      "type": "Float",
+      "default": 0.07,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Critical threshold",
+      "longDesc": "Sets the threshold when the battery will be reported as critically low. This has to be lower than the low threshold. This threshold commonly will trigger RTL.",
+      "min": 0.05,
+      "max": 0.25,
+      "units": "norm",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_EMERGEN_THR",
+      "type": "Float",
+      "default": 0.05,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Emergency threshold",
+      "longDesc": "Sets the threshold when the battery will be reported as dangerously low. This has to be lower than the critical threshold. This threshold commonly will trigger landing.",
+      "min": 0.03,
+      "max": 0.1,
+      "units": "norm",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_LOW_THR",
+      "type": "Float",
+      "default": 0.15,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "Low threshold",
+      "longDesc": "Sets the threshold when the battery will be reported as low. This has to be higher than the critical threshold.",
+      "min": 0.12,
+      "max": 0.5,
+      "units": "norm",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_N_CELLS",
+      "type": "Int32",
+      "default": 0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_N_CELLS instead",
+      "longDesc": "Defines the number of cells the attached battery consists of.",
+      "units": "S",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": 0,
+          "description": "Unconfigured"
+        },
+        {
+          "value": 2,
+          "description": "2S Battery"
+        },
+        {
+          "value": 3,
+          "description": "3S Battery"
+        },
+        {
+          "value": 4,
+          "description": "4S Battery"
+        },
+        {
+          "value": 5,
+          "description": "5S Battery"
+        },
+        {
+          "value": 6,
+          "description": "6S Battery"
+        },
+        {
+          "value": 7,
+          "description": "7S Battery"
+        },
+        {
+          "value": 8,
+          "description": "8S Battery"
+        },
+        {
+          "value": 9,
+          "description": "9S Battery"
+        },
+        {
+          "value": 10,
+          "description": "10S Battery"
+        },
+        {
+          "value": 11,
+          "description": "11S Battery"
+        },
+        {
+          "value": 12,
+          "description": "12S Battery"
+        },
+        {
+          "value": 13,
+          "description": "13S Battery"
+        },
+        {
+          "value": 14,
+          "description": "14S Battery"
+        },
+        {
+          "value": 15,
+          "description": "15S Battery"
+        },
+        {
+          "value": 16,
+          "description": "16S Battery"
+        }
+      ]
+    },
+    {
+      "name": "BAT_R_INTERNAL",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_R_INTERNAL instead",
+      "longDesc": "If non-negative, then this will be used in place of BAT_V_LOAD_DROP for all calculations.",
+      "min": -1.0,
+      "max": 0.2,
+      "units": "Ohm",
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_SOURCE",
+      "type": "Int32",
+      "default": 0,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_SOURCE instead",
+      "longDesc": "Battery monitoring source. This parameter controls the source of battery data. The value 'Power Module' means that measurements are expected to come from a power module. If the value is set to 'External' then the system expects to receive mavlink battery status messages.",
+      "min": 0,
+      "max": 1,
+      "values": [
+        {
+          "value": 0,
+          "description": "Power Module"
+        },
+        {
+          "value": 1,
+          "description": "External"
+        }
+      ]
+    },
+    {
+      "name": "BAT_V_CHARGED",
+      "type": "Float",
+      "default": 4.05,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_V_CHARGED instead",
+      "longDesc": "Defines the voltage where a single cell of battery 1 is considered full under a mild load. This will never be the nominal voltage of 4.2V",
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_V_EMPTY",
+      "type": "Float",
+      "default": 3.5,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_V_EMPTY instead",
+      "longDesc": "Defines the voltage where a single cell of battery 1 is considered empty. The voltage should be chosen before the steep dropoff to 2.8V. A typical lithium battery can only be discharged down to 10% before it drops off to a voltage level damaging the cells.",
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "BAT_V_LOAD_DROP",
+      "type": "Float",
+      "default": 0.3,
+      "group": "Battery Calibration",
+      "category": "Standard",
+      "shortDesc": "This parameter is deprecated. Please use BAT1_V_LOAD_DROP instead",
+      "longDesc": "This implicitely defines the internal resistance to maximum current ratio for battery 1 and assumes linearity. A good value to use is the difference between the 5C and 20-25C load. Not used if BAT_R_INTERNAL is set.",
+      "min": 0.07,
+      "max": 0.5,
+      "units": "V",
+      "decimalPlaces": 2,
+      "increment": 0.01,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_AIRSPD_CHK",
+      "type": "Int32",
+      "default": 0,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for airspeed sensor",
+      "longDesc": "Setting this parameter to 162128 will disable the check for an airspeed sensor. The sensor driver will not be started and it cannot be calibrated. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 162128,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_BUZZER",
+      "type": "Int32",
+      "default": 0,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for disabling buzzer",
+      "longDesc": "Setting this parameter to 782097 will disable the buzzer audio notification. Setting this parameter to 782090 will disable the startup tune, while keeping all others enabled.",
+      "min": 0,
+      "max": 782097,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_ENGINEFAIL",
+      "type": "Int32",
+      "default": 284953,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for engine failure detection",
+      "longDesc": "Setting this parameter to 284953 will disable the engine failure detection. If the aircraft is in engine failure mode the engine failure flag will be set to healthy WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 284953,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_FLIGHTTERM",
+      "type": "Int32",
+      "default": 121212,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for flight termination",
+      "longDesc": "Setting this parameter to 121212 will disable the flight termination action if triggered by the FailureDetector logic or if FMU is lost. This circuit breaker does not affect the RC loss, data link loss, geofence, and takeoff failure detection safety logic.",
+      "min": 0,
+      "max": 121212,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_IO_SAFETY",
+      "type": "Int32",
+      "default": 22027,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for IO safety",
+      "longDesc": "Setting this parameter to 22027 will disable IO safety. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 22027,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_RATE_CTRL",
+      "type": "Int32",
+      "default": 0,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for rate controller output",
+      "longDesc": "Setting this parameter to 140253 will disable the rate controller uORB publication. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 140253,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_SUPPLY_CHK",
+      "type": "Int32",
+      "default": 0,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for power supply check",
+      "longDesc": "Setting this parameter to 894281 will disable the power valid checks in the commander. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 894281,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_USB_CHK",
+      "type": "Int32",
+      "default": 197848,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for USB link check",
+      "longDesc": "Setting this parameter to 197848 will disable the USB connected checks in the commander, setting it to 0 keeps them enabled (recommended). We are generally recommending to not fly with the USB link connected and production vehicles should set this parameter to zero to prevent users from flying USB powered. However, for R&D purposes it has proven over the years to work just fine.",
+      "min": 0,
+      "max": 197848,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_VELPOSERR",
+      "type": "Int32",
+      "default": 0,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for position error check",
+      "longDesc": "Setting this parameter to 201607 will disable the position and velocity accuracy checks in the commander. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 201607,
+      "rebootRequired": true
+    },
+    {
+      "name": "CBRK_VTOLARMING",
+      "type": "Int32",
+      "default": 0,
+      "group": "Circuit Breaker",
+      "category": "Developer",
+      "shortDesc": "Circuit breaker for arming in fixed-wing mode check",
+      "longDesc": "Setting this parameter to 159753 will enable arming in fixed-wing mode for VTOLs. WARNING: ENABLING THIS CIRCUIT BREAKER IS AT OWN RISK",
+      "min": 0,
+      "max": 159753,
+      "rebootRequired": true
+    },
+    {
+      "name": "MC_AIRMODE",
+      "type": "Int32",
+      "default": 0,
+      "group": "Mixer Output",
+      "category": "Standard",
+      "shortDesc": "Multicopter air-mode",
+      "longDesc": "The air-mode enables the mixer to increase the total thrust of the multirotor in order to keep attitude and rate control even at low and high throttle. This function should be disabled during tuning as it will help the controller to diverge if the closed-loop is unstable (i.e. the vehicle is not tuned yet). Enabling air-mode for yaw requires the use of an arming switch.",
+      "values": [
+        {
+          "value": 0,
+          "description": "Disabled"
+        },
+        {
+          "value": 1,
+          "description": "Roll/Pitch"
+        },
+        {
+          "value": 2,
+          "description": "Roll/Pitch/Yaw"
+        }
+      ]
+    },
+    {
+      "name": "MOT_ORDERING",
+      "type": "Int32",
+      "default": 0,
+      "group": "Mixer Output",
+      "category": "Standard",
+      "shortDesc": "Motor Ordering",
+      "longDesc": "Determines the motor ordering. This can be used for example in combination with a 4-in-1 ESC that assumes a motor ordering which is different from PX4. ONLY supported for Quads. When changing this, make sure to test the motor response without props first.",
+      "values": [
+        {
+          "value": 0,
+          "description": "PX4"
+        },
+        {
+          "value": 1,
+          "description": "Betaflight / Cleanflight"
+        }
+      ]
+    },
+    {
+      "name": "CP_DELAY",
+      "type": "Float",
+      "default": 0.4,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Average delay of the range sensor message plus the tracking delay of the position controller in seconds",
+      "longDesc": "Only used in Position mode.",
+      "min": 0.0,
+      "max": 1.0,
+      "units": "s"
+    },
+    {
+      "name": "CP_DIST",
+      "type": "Float",
+      "default": -1.0,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Minimum distance the vehicle should keep to all obstacles",
+      "longDesc": "Only used in Position mode. Collision avoidance is disabled by setting this parameter to a negative value",
+      "min": -1.0,
+      "max": 15.0,
+      "units": "m"
+    },
+    {
+      "name": "CP_GO_NO_DATA",
+      "type": "Float",
+      "default": 0.0,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Boolean to allow moving into directions where there is no sensor data (outside FOV)",
+      "longDesc": "Only used in Position mode."
+    },
+    {
+      "name": "CP_GUIDE_ANG",
+      "type": "Float",
+      "default": 30.0,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Angle left/right from the commanded setpoint by which the collision prevention algorithm can choose to change the setpoint direction",
+      "longDesc": "Only used in Position mode.",
+      "min": 0.0,
+      "max": 90.0,
+      "units": "deg"
+    },
+    {
+      "name": "WV_EN",
+      "type": "Int32",
+      "default": 0,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Enable weathervane"
+    },
+    {
+      "name": "WV_ROLL_MIN",
+      "type": "Float",
+      "default": 1.0,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Minimum roll angle setpoint for weathervane controller to demand a yaw-rate",
+      "min": 0.0,
+      "max": 5.0,
+      "units": "deg"
+    },
+    {
+      "name": "WV_YRATE_MAX",
+      "type": "Float",
+      "default": 90.0,
+      "group": "Multicopter Position Control",
+      "category": "Standard",
+      "shortDesc": "Maximum yawrate the weathervane controller is allowed to demand",
+      "min": 0.0,
+      "max": 120.0,
+      "units": "deg/s"
+    },
+    {
+      "name": "MOT_SLEW_MAX",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "Minimum motor rise time (slew rate limit)",
+      "longDesc": "Minimum time allowed for the motor input signal to pass through a range of 1000 PWM units. A value x means that the motor signal can only go from 1000 to 2000 PWM in maximum x seconds. Zero means that slew rate limiting is disabled.",
+      "min": 0.0,
+      "units": "s/(1000*PWM)"
+    },
+    {
+      "name": "PWM_AUX_DIS1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 2 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 3 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 4 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 5 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 6 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 7 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DIS8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 8 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_AUX_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_DISARM",
+      "type": "Int32",
+      "default": 1500,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. The main use of this parameter is to silence ESCs when they are disarmed.",
+      "min": 0,
+      "max": 2200,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 2 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 3 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 4 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 5 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 6 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 7 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_FAIL8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 8 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX",
+      "type": "Int32",
+      "default": 2000,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux maximum value",
+      "longDesc": "Set to 2000 for industry default or 2100 to increase servo travel.",
+      "min": 1600,
+      "max": 2200,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 2 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 3 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 4 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 5 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 6 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 7 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MAX8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 8 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN",
+      "type": "Int32",
+      "default": 1000,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux minimum value",
+      "longDesc": "Set to 1000 for industry default or 900 to increase servo travel.",
+      "min": 800,
+      "max": 1400,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 2 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 3 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 4 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 5 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 6 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 7 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_MIN8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 8 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_AUX_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_AUX_RATE",
+      "type": "Int32",
+      "default": 50,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux output frequency",
+      "longDesc": "Set to 400 for industry default or 1000 for high frequency ESCs. Set to 0 for Oneshot125.",
+      "min": -1,
+      "max": 2000,
+      "units": "Hz"
+    },
+    {
+      "name": "PWM_AUX_RATE1",
+      "type": "Int32",
+      "default": 50,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 rate",
+      "longDesc": "Set the default PWM output frequency for the aux outputs",
+      "min": 0,
+      "max": 400,
+      "units": "Hz"
+    },
+    {
+      "name": "PWM_AUX_REV1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 2 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 3 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 4 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 5 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 6 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 7 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_REV8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 8 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_AUX_TRIM1",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 1 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM2",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 2 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM3",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 3 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM4",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 4 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM5",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 5 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM6",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 6 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM7",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 7 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_AUX_TRIM8",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM aux 8 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_DIS1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 2 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 3 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 4 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 5 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 6 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 7 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DIS8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 8 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_EXTRA_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_DISARM",
+      "type": "Int32",
+      "default": 1500,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. The main use of this parameter is to silence ESCs when they are disarmed.",
+      "min": 0,
+      "max": 2200,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 2 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 3 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 4 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 5 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 6 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 7 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_FAIL8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 8 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX",
+      "type": "Int32",
+      "default": 2000,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra maximum value",
+      "longDesc": "Set to 2000 for industry default or 2100 to increase servo travel.",
+      "min": 1600,
+      "max": 2200,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 2 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 3 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 4 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 5 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 6 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 7 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MAX8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 8 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN",
+      "type": "Int32",
+      "default": 1000,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra minimum value",
+      "longDesc": "Set to 1000 for industry default or 900 to increase servo travel.",
+      "min": 800,
+      "max": 1400,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 2 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 3 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 4 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 5 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 6 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 7 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_MIN8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 8 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_EXTRA_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_EXTRA_RATE",
+      "type": "Int32",
+      "default": 50,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra output frequency",
+      "longDesc": "Set to 400 for industry default or 1000 for high frequency ESCs. Set to 0 for Oneshot125.",
+      "min": -1,
+      "max": 2000,
+      "units": "Hz"
+    },
+    {
+      "name": "PWM_EXTRA_RATE1",
+      "type": "Int32",
+      "default": 50,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 rate",
+      "longDesc": "Set the default PWM output frequency for the main outputs",
+      "min": 0,
+      "max": 400,
+      "units": "Hz"
+    },
+    {
+      "name": "PWM_EXTRA_REV1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 2 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 3 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 4 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 5 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 6 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 7 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_REV8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 8 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_EXTRA_TRIM1",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 1 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM2",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 2 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM3",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 3 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM4",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 4 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM5",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 5 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM6",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 6 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM7",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 7 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_EXTRA_TRIM8",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM extra 8 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_DIS1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS10",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 10 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS11",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 11 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS12",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 12 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS13",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 13 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS14",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 14 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 2 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 3 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 4 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 5 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 6 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 7 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 8 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DIS9",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 9 disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. When set to -1 the value for PWM_MAIN_DISARM will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_DISARM",
+      "type": "Int32",
+      "default": 900,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main disarmed value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if not armed. The main use of this parameter is to silence ESCs when they are disarmed.",
+      "min": 0,
+      "max": 2200,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL10",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 10 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL11",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 11 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL12",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 12 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL13",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 13 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL14",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 14 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 2 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 3 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 4 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 5 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 6 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 7 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 8 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_FAIL9",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 9 failsafe value",
+      "longDesc": "This is the PWM pulse the autopilot is outputting if in failsafe mode. When set to -1 the value is set automatically depending if the actuator is a motor (900us) or a servo (1500us)",
+      "min": 0,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX",
+      "type": "Int32",
+      "default": 2000,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main maximum value",
+      "longDesc": "Set to 2000 for industry default or 2100 to increase servo travel.",
+      "min": 1600,
+      "max": 2200,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX10",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 10 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX11",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 11 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX12",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 12 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX13",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 13 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX14",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 14 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 2 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 3 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 4 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 5 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 6 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 7 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 8 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MAX9",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 9 maximum value",
+      "longDesc": "This is the maximum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MAX will be used",
+      "min": -1,
+      "max": 2150,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN",
+      "type": "Int32",
+      "default": 1000,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main minimum value",
+      "longDesc": "Set to 1000 for industry default or 900 to increase servo travel.",
+      "min": 800,
+      "max": 1400,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN1",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN10",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 10 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN11",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 11 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN12",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 12 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN13",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 13 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN14",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 14 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN2",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 2 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN3",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 3 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN4",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 4 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN5",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 5 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN6",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 6 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN7",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 7 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN8",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 8 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_MIN9",
+      "type": "Int32",
+      "default": -1,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 9 minimum value",
+      "longDesc": "This is the minimum PWM pulse the autopilot is allowed to output. When set to -1 the value for PWM_MAIN_MIN will be used",
+      "min": -1,
+      "max": 1600,
+      "units": "us"
+    },
+    {
+      "name": "PWM_MAIN_RATE",
+      "type": "Int32",
+      "default": 400,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main output frequency",
+      "longDesc": "Set to 400 for industry default or 1000 for high frequency ESCs. Set to 0 for Oneshot125.",
+      "min": -1,
+      "max": 2000,
+      "units": "Hz"
+    },
+    {
+      "name": "PWM_MAIN_RATE1",
+      "type": "Int32",
+      "default": 50,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 rate",
+      "longDesc": "Set the default PWM output frequency for the main outputs",
+      "min": 0,
+      "max": 400,
+      "units": "Hz"
+    },
+    {
+      "name": "PWM_MAIN_REV1",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV10",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 10 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV11",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 11 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV12",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 12 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV13",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 13 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV14",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 14 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV2",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 2 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV3",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 3 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV4",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 4 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV5",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 5 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV6",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 6 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV7",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 7 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV8",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 8 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_REV9",
+      "type": "Int32",
+      "default": 0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 9 reverse value",
+      "longDesc": "Enable to invert the channel. Warning: Use this parameter when connected to a servo only. For a brushless motor, invert manually two phases to reverse the direction."
+    },
+    {
+      "name": "PWM_MAIN_TRIM1",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 1 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM10",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 10 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM11",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 11 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM12",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 12 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM13",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 13 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM14",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 14 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM2",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 2 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM3",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 3 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM4",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 4 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM5",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 5 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM6",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 6 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM7",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 7 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM8",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 8 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "PWM_MAIN_TRIM9",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "PWM main 9 trim value",
+      "longDesc": "Set to normalized offset",
+      "min": -0.2,
+      "max": 0.2,
+      "decimalPlaces": 2
+    },
+    {
+      "name": "THR_MDL_FAC",
+      "type": "Float",
+      "default": 0.0,
+      "group": "PWM Outputs",
+      "category": "Standard",
+      "shortDesc": "Thrust to motor control signal model parameter",
+      "longDesc": "Parameter used to model the nonlinear relationship between motor control signal (e.g. PWM) and static thrust. The model is: rel_thrust = factor * rel_signal^2 + (1-factor) * rel_signal, where rel_thrust is the normalized thrust between 0 and 1, and rel_signal is the relative motor control signal between 0 and 1.",
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "name": "SYS_AUTOCONFIG",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Automatically configure default values",
+      "longDesc": "Set to 1 to reset parameters on next system startup (setting defaults). Platform-specific values are used if available. RC* parameters are preserved.",
+      "values": [
+        {
+          "value": 0,
+          "description": "Keep parameters"
+        },
+        {
+          "value": 1,
+          "description": "Reset parameters to airframe defaults"
+        }
+      ]
+    },
+    {
+      "name": "SYS_AUTOSTART",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Auto-start script index",
+      "longDesc": "CHANGING THIS VALUE REQUIRES A RESTART. Defines the auto-start script used to bootstrap the system.",
+      "min": 0,
+      "max": 9999999,
+      "rebootRequired": true
+    },
+    {
+      "name": "SYS_BL_UPDATE",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Bootloader update",
+      "longDesc": "If enabled, update the bootloader on the next boot. WARNING: do not cut the power during an update process, otherwise you will have to recover using some alternative method (e.g. JTAG). Instructions: - Insert an SD card - Enable this parameter - Reboot the board (plug the power or send a reboot command) - Wait until the board comes back up (or at least 2 minutes) - If it does not come back, check the file bootlog.txt on the SD card",
+      "rebootRequired": true
+    },
+    {
+      "name": "SYS_CAL_ACCEL",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Enable auto start of accelerometer thermal calibration at the next power up",
+      "longDesc": "0 : Set to 0 to do nothing 1 : Set to 1 to start a calibration at next boot This parameter is reset to zero when the temperature calibration starts. default (0, no calibration)",
+      "min": 0,
+      "max": 1
+    },
+    {
+      "name": "SYS_CAL_BARO",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Enable auto start of barometer thermal calibration at the next power up",
+      "longDesc": "0 : Set to 0 to do nothing 1 : Set to 1 to start a calibration at next boot This parameter is reset to zero when the temperature calibration starts. default (0, no calibration)",
+      "min": 0,
+      "max": 1
+    },
+    {
+      "name": "SYS_CAL_GYRO",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Enable auto start of rate gyro thermal calibration at the next power up",
+      "longDesc": "0 : Set to 0 to do nothing 1 : Set to 1 to start a calibration at next boot This parameter is reset to zero when the temperature calibration starts. default (0, no calibration)",
+      "min": 0,
+      "max": 1
+    },
+    {
+      "name": "SYS_CAL_TDEL",
+      "type": "Int32",
+      "default": 24,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Required temperature rise during thermal calibration",
+      "longDesc": "A temperature increase greater than this value is required during calibration. Calibration will complete for each sensor when the temperature increase above the starting temeprature exceeds the value set by SYS_CAL_TDEL. If the temperature rise is insufficient, the calibration will continue indefinitely and the board will need to be repowered to exit.",
+      "min": 10,
+      "units": "celcius"
+    },
+    {
+      "name": "SYS_CAL_TMAX",
+      "type": "Int32",
+      "default": 10,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Maximum starting temperature for thermal calibration",
+      "longDesc": "Temperature calibration will not start if the temperature of any sensor is higher than the value set by SYS_CAL_TMAX.",
+      "units": "celcius"
+    },
+    {
+      "name": "SYS_CAL_TMIN",
+      "type": "Int32",
+      "default": 5,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Minimum starting temperature for thermal calibration",
+      "longDesc": "Temperature calibration for each sensor will ignore data if the temperature is lower than the value set by SYS_CAL_TMIN.",
+      "units": "celcius"
+    },
+    {
+      "name": "SYS_FAC_CAL_MODE",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Enable factory calibration mode",
+      "longDesc": "If enabled, future sensor calibrations will be stored to /fs/mtd_caldata. Note: this is only supported on boards with a separate calibration storage /fs/mtd_caldata."
+    },
+    {
+      "name": "SYS_FAILURE_EN",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Enable failure injection",
+      "longDesc": "If enabled allows MAVLink INJECT_FAILURE commands. WARNING: the failures can easily cause crashes and are to be used with caution!"
+    },
+    {
+      "name": "SYS_HAS_BARO",
+      "type": "Int32",
+      "default": 1,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Control if the vehicle has a barometer",
+      "longDesc": "Disable this if the board has no barometer, such as some of the Omnibus F4 SD variants. If disabled, the preflight checks will not check for the presence of a barometer.",
+      "rebootRequired": true
+    },
+    {
+      "name": "SYS_HAS_MAG",
+      "type": "Int32",
+      "default": 1,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Control if the vehicle has a magnetometer",
+      "longDesc": "Disable this if the board has no magnetometer, such as the Omnibus F4 SD. If disabled, the preflight checks will not check for the presence of a magnetometer.",
+      "rebootRequired": true
+    },
+    {
+      "name": "SYS_HITL",
+      "type": "Int32",
+      "default": 0,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Enable HITL/SIH mode on next boot",
+      "longDesc": "While enabled the system will boot in Hardware-In-The-Loop (HITL) or Simulation-In-Hardware (SIH) mode and not enable all sensors and checks. When disabled the same vehicle can be flown normally. Set to 'external HITL', if the system should perform as if it were a real vehicle (the only difference to a real system is then only the parameter value, which can be used for log analysis).",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": -1,
+          "description": "external HITL"
+        },
+        {
+          "value": 0,
+          "description": "HITL and SIH disabled"
+        },
+        {
+          "value": 1,
+          "description": "HITL enabled"
+        },
+        {
+          "value": 2,
+          "description": "SIH enabled"
+        }
+      ]
+    },
+    {
+      "name": "SYS_MC_EST_GROUP",
+      "type": "Int32",
+      "default": 2,
+      "group": "System",
+      "category": "Standard",
+      "shortDesc": "Set multicopter estimator group",
+      "longDesc": "Set the group of estimators used for multicopters and VTOLs",
+      "rebootRequired": true,
+      "values": [
+        {
+          "value": 1,
+          "description": "local_position_estimator, attitude_estimator_q (unsupported)"
+        },
+        {
+          "value": 2,
+          "description": "ekf2 (recommended)"
+        },
+        {
+          "value": 3,
+          "description": "Q attitude estimator (no position)"
+        }
+      ]
+    },
+    {
+      "name": "SYS_RESTART_TYPE",
+      "type": "Int32",
+      "default": 2,
+      "group": "System",
+      "category": "System",
+      "volatile": true,
+      "shortDesc": "Set restart type",
+      "longDesc": "Set by px4io to indicate type of restart",
+      "min": 0,
+      "max": 2,
+      "values": [
+        {
+          "value": 0,
+          "description": "Data survives resets"
+        },
+        {
+          "value": 1,
+          "description": "Data survives in-flight resets only"
+        },
+        {
+          "value": 2,
+          "description": "Data does not survive reset"
+        }
+      ]
+    },
+    {
+      "name": "WV_GAIN",
+      "type": "Float",
+      "default": 1.0,
+      "group": "VTOL Attitude Control",
+      "category": "Standard",
+      "shortDesc": "Weather-vane roll angle to yawrate",
+      "longDesc": "The desired gain to convert roll sp into yaw rate sp.",
+      "min": 0.0,
+      "max": 3.0,
+      "units": "Hz",
+      "decimalPlaces": 3,
+      "increment": 0.01
+    }
+  ]
+}
