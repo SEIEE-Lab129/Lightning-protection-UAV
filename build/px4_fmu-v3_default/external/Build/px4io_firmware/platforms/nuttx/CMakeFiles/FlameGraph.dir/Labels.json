@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/platforms/nuttx/CMakeFiles/FlameGraph"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/platforms/nuttx/CMakeFiles/FlameGraph.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/platforms/nuttx/CMakeFiles/FlameGraph-complete.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-install.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-mkdir.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-download.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-update.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-patch.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-configure.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Build/px4io_firmware/external/Stamp/FlameGraph/FlameGraph-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"FlameGraph"
+		],
+		"name" : "FlameGraph"
+	}
+}

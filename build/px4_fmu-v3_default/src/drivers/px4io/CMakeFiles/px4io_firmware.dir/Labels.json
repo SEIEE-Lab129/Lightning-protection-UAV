@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/src/drivers/px4io/CMakeFiles/px4io_firmware"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/src/drivers/px4io/CMakeFiles/px4io_firmware.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/src/drivers/px4io/CMakeFiles/px4io_firmware-complete.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-install.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-mkdir.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-download.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-update.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-patch.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-configure.rule"
+		},
+		{
+			"file" : "/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"px4io_firmware"
+		],
+		"name" : "px4io_firmware"
+	}
+}

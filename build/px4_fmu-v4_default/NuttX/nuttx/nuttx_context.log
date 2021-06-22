@@ -1,0 +1,13 @@
+Create .version
+Create version.h
+LN: include/arch to arch/arm/include
+LN: include/arch/board to /cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v4_default/NuttX/nuttx/../nuttx-config/include
+LN: include/arch/chip to arch/arm/include/stm32
+LN: arch/arm/src/board to /cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v4_default/NuttX/nuttx/../nuttx-config/src
+LN: arch/arm/src/chip to arch/arm/src/stm32
+LN: /cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v4_default/NuttX/nuttx/drivers/platform to /cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v4_default/NuttX/nuttx/drivers/dummy
+LN: platform/board to /cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v4_default/NuttX/apps/platform/dummy
+Register: sercon
+Register: serdis
+Register: nsh
+Register: sh

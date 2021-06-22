@@ -1,0 +1,13 @@
+# Target labels
+ px4io_firmware
+# Source files and their labels
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/src/drivers/px4io/CMakeFiles/px4io_firmware
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/src/drivers/px4io/CMakeFiles/px4io_firmware.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/src/drivers/px4io/CMakeFiles/px4io_firmware-complete.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-install.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-mkdir.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-download.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-update.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-patch.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-configure.rule
+/cygdrive/e/PX4/home/PX4-Autopilot/build/px4_fmu-v3_default/external/Stamp/px4io_firmware/px4io_firmware-build.rule
